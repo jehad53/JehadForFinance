@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جهاد للخدمات المالية - حلول موثوقة</title>
+    <!-- استدعاء خط Cairo بأوزان مختلفة لدعم الواجهة العربية -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- استدعاء خط Cairo الأساسي والملحقات -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- استدعاء مكتبة الأيقونات الشهيرة FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- استدعاء مكتبة SweetAlert2 للتنبيهات الاحترافية -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* --- المتغيرات والتنسيق العام للهوية البصرية --- */
+        :root {
+            --primary-color: #1d1d45; /* الكحلي المعتمد الداكن */
+            --primary-light: #2a2a60;
+            --accent-color: #d4af37;  /* الذهبي للمظهر الاحترافي المالي */
+            --accent-hover: #b5952f;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --bg-light: #f4f6f9;
+            --bg-white: #ffffff;
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --shadow-card-hover: 0 15px 40px rgba(29, 29, 69, 0.12);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
+
+        /* --- شريط التنقل (Header) --- */
+        header {
+            background-color: rgba(29, 29, 69, 0.98);
+            padding: 0.8rem 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+        }
+        .logo { color: var(--accent-color); font-size: 1.5rem; font-weight: 800; text-decoration: none; transition: var(--transition); }
+        
+        nav ul { list-style: none; display: flex; gap: 2rem; align-items: center; }
+        nav a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: var(--transition); position: relative; }
+        nav a:hover { color: var(--accent-color); }
+        
+        /* تأثير الخط السفلي عند تمرير الماوس بالروابط العليا */
+        nav a::after {
+            content: ''; position: absolute; bottom: -5px; right: 0; width: 0; height: 2px;
+            background-color: var(--accent-color); transition: var(--transition);
+        }
+        nav a:hover::after { width: 100%; }
+
+        /* --- الأزرار المصغرة المحسنة --- */
+        .cta-btn {
+            background-color: var(--accent-color); color: var(--primary-color);
+            padding: 0.45rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 700; text-decoration: none; transition: var(--transition);
+            display: inline-flex; align-items: center; gap: 6px;
+            border: 2px solid transparent; font-size: 0.85rem;
+            box-shadow: 0 4px 8px rgba(212, 175, 55, 0.15);
+        }
+        .cta-btn:hover { background-color: transparent; color: var(--accent-color); border-color: var(--accent-color); transform: translateY(-2px); }
+
+        .cta-btn-outline {
+            background-color: transparent; color: var(--text-light);
+            border: 2px solid var(--text-light);
+        }
+        .cta-btn-outline:hover { background-color: var(--text-light); color: var(--primary-color); }
+
+        /* --- قسم الهيرو الاحترافي --- */
+        .hero {
+            background-color: var(--primary-color);
+            background-image: radial-gradient(circle at 10% 10%, rgba(42, 42, 96, 0.3) 0%, transparent 40%);
+            color: var(--text-light);
+            padding: 9rem 8% 7rem 8%;
+            display: flex; align-items: center; justify-content: space-between; gap: 4rem;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg opacity="0.03" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%23ffffff" stroke-width="0.5" fill="none"/></svg>') repeat;
+            z-index: 1;
+        }
+        .hero-text { flex: 1; z-index: 2; animation: fadeInUp 1s ease; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background-color: rgba(212, 175, 55, 0.1); color: var(--accent-color);
+            padding: 0.3rem 0.8rem; border-radius: 50px; font-weight: 700; font-size: 0.8rem;
+            margin-bottom: 1.2rem; border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .hero h1 { font-size: 3.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.2rem; }
+        .hero h1 span { color: var(--accent-color); }
+        .hero p { font-size: 1.1rem; margin-bottom: 2.5rem; opacity: 0.85; max-width: 600px; line-height: 1.7; }
+        .hero-action-btns { display: flex; gap: 1rem; }
+
+        .hero-image { flex: 1; z-index: 2; display: flex; justify-content: center; animation: floating 6s ease-in-out infinite; }
+        .hero-svg-wrapper { width: 100%; max-width: 450px; filter: drop-shadow(0 10px 25px rgba(0,0,0,0.2)); }
+
+        /* --- قسم الخدمات --- */
+        .services { padding: 6rem 8%; text-align: center; background-color: var(--bg-white); }
+        .section-title { color: var(--primary-color); font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; position: relative; display: inline-block; }
+        .section-title::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background-color: var(--accent-color); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; max-width: 1100px; margin: 4rem auto 0; }
+        .service-card { background-color: var(--bg-white); padding: 2.5rem 2rem; border-radius: 18px; box-shadow: var(--shadow-soft); transition: var(--transition); border: 1px solid rgba(0,0,0,0.02); }
+        .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-card-hover); }
+        .service-icon-box { width: 70px; height: 70px; background-color: rgba(29, 29, 69, 0.05); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem; color: var(--primary-color); }
+        .service-card h3 { color: var(--primary-color); font-size: 1.4rem; margin-bottom: 0.8rem; }
+        .service-card p { color: #666; font-size: 0.95rem; }
+
+        /* =========================================
+           --- قسم الإجراءات والمستندات المطلوبة الجديد ---
+           ========================================= */
+        .documents-section {
+            padding: 6rem 8%;
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .tabs-container {
+            max-width: 850px;
+            margin: 3.5rem auto 0 auto;
+            background: var(--bg-white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        /* شريط أزرار التبديل للتبويب */
+        .tabs-header {
+            display: flex;
+            background-color: rgba(29, 29, 69, 0.03);
+            border-bottom: 2px solid rgba(29, 29, 69, 0.05);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1.5rem 1rem;
+            background: none;
+            border: none;
+            outline: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #666;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* التبويب النشط */
+        .tab-btn.active {
+            color: var(--primary-color);
+            background-color: var(--bg-white);
+            border-bottom: 3.5px solid var(--accent-color);
+        }
+
+        .tab-btn:not(.active):hover {
+            color: var(--primary-color);
+            background-color: rgba(29, 29, 69, 0.01);
+        }
+
+        /* محتويات التبويب */
+        .tabs-content {
+            padding: 3rem 2.5rem;
+            text-align: right;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .panel-heading {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.8rem;
+            border-bottom: 1px solid rgba(29, 29, 69, 0.08);
+            padding-bottom: 1rem;
+        }
+
+        .panel-heading i {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+        }
+
+        .panel-heading h3 {
+            color: var(--primary-color);
+            font-size: 1.35rem;
+            font-weight: 800;
+        }
+
+        /* قائمة المستندات الاحترافية */
+        .doc-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+
+        /* عناصر القائمة المخصصة */
+        .doc-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(29, 29, 69, 0.01);
+            padding: 1rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(29, 29, 69, 0.03);
+            transition: var(--transition);
+        }
+
+        .doc-item:hover {
+            background-color: rgba(212, 175, 55, 0.04);
+            transform: translateX(-5px);
+            border-color: rgba(212, 175, 55, 0.2);
+        }
+
+        .doc-item i {
+            color: var(--accent-color);
+            font-size: 1.3rem;
+        }
+
+        .doc-text {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        /* تنبيه الحضور الشخصي الاستثنائي */
+        .warning-badge {
+            background-color: rgba(239, 68, 68, 0.1) !important;
+            border-color: rgba(239, 68, 68, 0.2) !important;
+        }
+        .warning-badge i {
+            color: #ef4444 !important;
+        }
+        .warning-badge .doc-text {
+            color: #b91c1c !important;
+            font-weight: 700;
+        }
+
+        /* ========================================= */
+
+        /* --- التذييل --- */
+        footer { background-color: var(--primary-color); color: var(--text-light); text-align: center; padding: 2.5rem 8%; border-top: 4px solid var(--accent-color); }
+
+        /* حركات التلاشي للتبويبات */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+        @media (max-width: 992px) {
+            .hero { flex-direction: column; text-align: center; padding-top: 7rem; }
+            .hero-text { order: 2; }
+            .hero-image { order: 1; max-width: 350px; }
+            .hero-action-btns { justify-content: center; }
+            .hero p { margin: 0 auto 2rem; }
+            .tabs-content { padding: 2rem 1.5rem; }
+        }
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .tab-btn { font-size: 0.95rem; padding: 1.2rem 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التنقل العلوي -->
+    <header>
+        <a href="#" class="logo">جهاد <span style="font-weight:400; color:white;">للفيزا</span></a>
+        <nav>
+            <ul>
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#services">خدماتنا</a></li>
+                <li><a href="#documents">المستندات المطلوبة</a></li>
+                <li><a href="#" onclick="showComingSoonMsg(); return false;">آلية العمل</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="https://wa.me/218944855177" target="_blank" class="cta-btn">
+                <span>تواصل الآن</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 1.11L8.16 9.91a16 16 0 0 0 6 6l2.28-2.28a2 2 0 0 1 1.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </a>
+        </div>
+    </header>
+
+    <!-- قسم البانر التعريفي (Hero) -->
+    <section class="hero">
+        <div class="hero-text">
+            <div class="hero-badge">وكيل معتمد وموثوق</div>
+            <h1>بوابتك <span>للحلول المالية</span> الرقمية</h1>
+            <p>نحن نسهل معاملاتك المالية من مصرف التجارة والتنمية (إصدار فيزا، مخصصات الأغراض الشخصية) بأمان وسرعة فائقة.</p>
+            
+            <div class="hero-action-btns">
+                <a href="#services" class="cta-btn">استكشف خدماتنا</a>
+                <a href="#" onclick="showComingSoonMsg(); return false;" class="cta-btn cta-btn-outline">كيف نعمل؟</a>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <div class="hero-svg-wrapper">
+                <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#2a2a60;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#1d1d45;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="50" y="100" width="380" height="250" rx="25" fill="url(%23grad1)" stroke="%23d4af37" stroke-width="2"/>
+                    <rect x="90" y="150" width="60" height="45" rx="8" fill="%23d4af37" opacity="0.8"/>
+                    <text x="330" y="320" fontFamily="Arial, sans-serif" fontWeight="bold" fontStyle="italic" fontSize="35" fill="white" opacity="0.6">VISA</text>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الخدمات الأساسية -->
+    <section id="services" class="services">
+        <h2 class="section-title">خدماتنا المتميزة</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon-box">💳</div>
+                <h3>شراء بطاقات الفيزا</h3>
+                <p>شراء وتفعيل بطاقات الفيزا الخاصة بمصرف التجارة والتنمية بسرعة وأمان وموثوقية.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon-box">📄</div>
+                <h3>الأغراض الشخصية</h3>
+                <p>تسريع إجراءات مخصصات الأغراض الشخصية لضمان استلام حصتك النقدية بسلاسة تامة.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الإجراءات والمستندات المطلوبة الجديد -->
+    <section id="documents" class="documents-section">
+        <h2 class="section-title">الأوراق والإجراءات المطلوبة</h2>
+        <p style="color: #666; max-width: 600px; margin: 1rem auto 0 auto;">يرجى تتبع المستندات والإجراءات المطلوبة بدقة حسب نوع معاملتكم لضمان سرعة التنفيذ الفوري.</p>
+        
+        <div class="tabs-container">
+            <!-- رؤوس التبويبات -->
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="switchTab(event, 'card-trading')">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <span>بيع بطاقة التجارة والتنمية</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab(event, 'national-id-trading')">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>بيع الرقم الوطني</span>
+                </button>
+            </div>
+
+            <!-- محتوى تبويب بيع البطاقة -->
+            <div class="tabs-content">
+                <div id="card-trading" class="tab-panel active">
+                    <div class="panel-heading">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <h3>مستندات بيع بطاقة مصرف التجارة والتنمية</h3>
+                    </div>
+                    <ul class="doc-list">
+                        <li class="doc-item">
+                            <i class="fa-solid fa-square-check"></i>
+                            <span class="doc-text">صورة ملونة واضحة من شهادة الميلاد.</span>
+                        </li>
+                        <li class="doc-item">
+                            <i class="fa-solid fa-square-check"></i>
+                            <span class="doc-text">صورة ضوئية من جواز السفر.</span>
+                        </li>
+                        <li class="doc-item">
+                            <i class="fa-solid fa-square-check"></i>
+                            <span class="doc-text">عدد (2) صكوك مصرفية "صك مصرفي" موقعة ومعتمدة.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- محتوى تبويب بيع الرقم الوطني -->
+                <div id="national-id-trading" class="tab-panel">
+                    <div class="panel-heading">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <h3>إجراءات ومستندات بيع الرقم الوطني (الأغراض الشخصية)</h3>
+                    </div>
+                    <ul class="doc-list">
+                        <li class="doc-item">
+                            <i class="fa-solid fa-square-check"></i>
+                            <span class="doc-text">جواز سفر أصلي ساري المفعول وصلاحية مستمرة.</span>
+                        </li>
+                        <li class="doc-item">
+                            <i class="fa-solid fa-square-check"></i>
+                            <span class="doc-text">عدد (2) صور ملونة من جواز السفر.</span>
+                        </li>
+                        <li class="doc-item">
+                            <i class="fa-solid fa-square-check"></i>
+                            <span class="doc-text">عدد (2) صور من شهادة الميلاد (واحدة أصلية والأخرى ملونة).</span>
+                        </li>
+                        <li class="doc-item">
+                            <i class="fa-solid fa-square-check"></i>
+                            <span class="doc-text">عدد (4) صور شخصية حديثة وذات خلفية بيضاء.</span>
+                        </li>
+                        <li class="doc-item">
+                            <i class="fa-solid fa-square-check"></i>
+                            <span class="doc-text">شفرة هاتف جوال (SIM) مسجلة ومربوطة بالرقم الوطني باسم العميل.</span>
+                        </li>
+                        <li class="doc-item warning-badge">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <span class="doc-text">الحضور الشخصي والفعلي لصاحب المعاملة إلزامي وضروري.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- التذييل -->
+    <footer>
+        <p>&copy; 2026 جهاد للخدمات المالية. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <!-- سكربتات التحكم التفاعلية -->
+    <script>
+        // دالة التبديل بين التبويبات التفاعلية للمستندات
+        function switchTab(event, tabId) {
+            // إزالة الكلاس النشط من جميع الأزرار
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // إخفاء جميع محتويات التبويبات
+            const panels = document.querySelectorAll('.tab-panel');
+            panels.forEach(panel => panel.classList.remove('active'));
+
+            // تفعيل الزر الذي تم النقر عليه
+            event.currentTarget.classList.add('active');
+
+            // إظهار المحتوى الخاص بالزر المحدد
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // دالة عرض تنبيه آلية العمل باستخدام SweetAlert2
+        function showComingSoonMsg() {
+            Swal.fire({
+                title: 'قريباً!',
+                text: 'نحن نجهز حالياً شرحاً مفصلاً ومبسطاً لآلية العمل خطوة بخطوة لخدمتكم بشكل أفضل.',
+                icon: 'info',
+                iconColor: '#d4af37',
+                confirmButtonText: 'حسناً',
+                confirmButtonColor: '#1d1d45'
+            });
+        }
+    </script>
+</body>
+</html>
