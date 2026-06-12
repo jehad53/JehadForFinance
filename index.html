@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جهاد للخدمات المالية - حلول موثوقة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* --- المتغيرات والتنسيق العام --- */
+        :root {
+            --primary-color: #1d1d45; /* اللون الأساسي المطلوب */
+            --primary-light: #2a2a60;
+            --accent-color: #d4af37; /* الذهبي للاحترافية */
+            --accent-hover: #b5952f;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --shadow-card-hover: 0 15px 40px rgba(29, 29, 69, 0.12);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
+
+        /* --- شريط التنقل (Header) --- */
+        header {
+            background-color: rgba(29, 29, 69, 0.98); /* شفافية بسيطة */
+            padding: 1rem 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px); /* تأثير ضبابي */
+        }
+        .logo { color: var(--accent-color); font-size: 1.6rem; font-weight: 800; text-decoration: none; transition: var(--transition); }
+        .logo:hover { transform: scale(1.02); }
+        
+        nav ul { list-style: none; display: flex; gap: 2.5rem; align-items: center; }
+        nav a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: var(--transition); position: relative; padding: 5px 0; }
+        nav a::after { content: ''; position: absolute; bottom: 0; right: 0; width: 0; height: 2px; background-color: var(--accent-color); transition: var(--transition); }
+        nav a:hover { color: var(--accent-color); }
+        nav a:hover::after { width: 100%; }
+        
+        .header-cta { gap: 1rem; display: flex; align-items: center; }
+
+        /* --- الأزرار الاحترافية --- */
+        .cta-btn {
+            background-color: var(--accent-color); color: var(--primary-color);
+            padding: 0.7rem 1.8rem; border-radius: 50px; /* زوايا دائرية بالكامل */
+            font-weight: 700; text-decoration: none; transition: var(--transition);
+            display: inline-flex; align-items: center; gap: 8px;
+            border: 2px solid transparent; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+        }
+        .cta-btn:hover { background-color: transparent; color: var(--accent-color); border-color: var(--accent-color); transform: translateY(-3px); box-shadow: 0 6px 15px rgba(212, 175, 55, 0.3); }
+
+        .cta-btn-outline {
+            background-color: transparent; color: var(--text-light);
+            border: 2px solid var(--text-light);
+        }
+        .cta-btn-outline:hover { background-color: var(--text-light); color: var(--primary-color); border-color: var(--text-light); }
+
+        /* =========================================
+           --- قسم الهيرو الاحترافي (Hero Section) ---
+           ========================================= */
+        .hero {
+            background-color: var(--primary-color);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(42, 42, 96, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
+            color: var(--text-light);
+            padding: 10rem 8% 8rem 8%;
+            position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: space-between; gap: 4rem;
+        }
+
+        /* تنسيق نمط الخلفية المعقد */
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg opacity="0.03" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%23ffffff" stroke-width="0.5" fill="none"/><circle cx="50" cy="50" r="20" stroke="%23d4af37" stroke-width="0.2" fill="none"/></svg>') repeat;
+            z-index: 1;
+        }
+
+        /* العمود الأيمن: النصوص */
+        .hero-text { flex: 1; position: relative; z-index: 2; text-align: right; animation: fadeInUp 1s ease; }
+        
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background-color: rgba(212, 175, 55, 0.1); color: var(--accent-color);
+            padding: 0.4rem 1rem; border-radius: 50px; font-weight: 700; font-size: 0.85rem;
+            margin-bottom: 1.5rem; border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .hero h1 { font-size: 3.8rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; color: var(--text-light); }
+        .hero h1 span { color: var(--accent-color); } /* تلوين كلمة محددة */
+        
+        .hero p { font-size: 1.2rem; margin-bottom: 3rem; opacity: 0.9; max-width: 650px; font-weight: 400; line-height: 1.8; }
+        
+        .hero-action-btns { display: flex; gap: 1.5rem; justify-content: flex-start; }
+
+        /* العمود الأيسر: الصورة/الرسم */
+        .hero-image { flex: 1; position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; animation: fadeInRight 1s ease 0.2s; animation-fill-mode: both; }
+        
+        /* رسم SVG احترافي مدمج (محاكاة لخدمات مالية رقمية) */
+        .hero-svg-wrapper { width: 100%; max-width: 500px; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3)); animation: floating 6s ease-in-out infinite; }
+
+        /* ========================================= */
+
+        /* --- قسم الخدمات --- */
+        .services { padding: 7rem 8%; text-align: center; background-color: var(--bg-white); }
+        .section-title { color: var(--primary-color); font-size: 2.6rem; font-weight: 800; margin-bottom: 1rem; position: relative; display: inline-block; }
+        .section-subtitle { color: #666; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        
+        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background-color: var(--accent-color); border-radius: 2px; }
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto; }
+        
+        .service-card {
+            background-color: var(--bg-white); padding: 3rem 2rem; border-radius: 20px;
+            box-shadow: var(--shadow-soft); transition: var(--transition);
+            border: 1px solid rgba(29, 29, 69, 0.03); position: relative; overflow: hidden;
+        }
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background-color: var(--accent-color); transform: scaleX(0); transition: var(--transition); transform-origin: right; }
+        .service-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-card-hover); }
+        .service-card:hover::before { transform: scaleX(1); }
+
+        .service-icon-box {
+            width: 80px; height: 80px; background-color: rgba(29, 29, 69, 0.05);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; margin: 0 auto 2rem auto; color: var(--primary-color); transition: var(--transition);
+        }
+        .service-card:hover .service-icon-box { background-color: var(--primary-color); color: var(--accent-color); transform: rotate(-5deg); }
+
+        .service-card h3 { color: var(--primary-color); font-size: 1.6rem; font-weight: 700; margin-bottom: 1rem; }
+        .service-card p { color: #666; font-size: 1rem; line-height: 1.7; }
+
+        /* --- التذييل --- */
+        footer { background-color: var(--primary-color); color: var(--text-light); text-align: center; padding: 3rem 8%; border-top: 5px solid var(--accent-color); position: relative; z-index: 2; }
+        footer p { opacity: 0.8; font-size: 0.95rem; }
+
+        /* --- الحركات (Animations) --- */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        /* تعديل خط SweetAlert */
+        .swal2-popup { font-family: 'Cairo', sans-serif !important; border-radius: 15px; padding: 2rem; }
+        .swal2-title { font-weight: 800; color: var(--primary-color); }
+
+        /* --- استجابة الشاشات (Responsive) --- */
+        @media (max-width: 1200px) {
+            .hero h1 { font-size: 3rem; }
+        }
+
+        @media (max-width: 992px) {
+            header { padding: 1rem 5%; }
+            .hero { flex-direction: column; text-align: center; padding-top: 8rem; gap: 3rem; }
+            .hero-text { text-align: center; order: 2; }
+            .hero p { margin-left: auto; margin-right: auto; }
+            .hero-action-btns { justify-content: center; }
+            .hero-image { order: 1; width: 100%; max-width: 400px; }
+        }
+
+        @media (max-width: 768px) {
+            nav ul { display: none; } /* إخفاء القائمة في الموبايل لتبسيط التصميم */
+            .hero h1 { font-size: 2.4rem; }
+            .services-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">جهاد <span style="font-weight:400; color:white;"> للخدمات المالية</span></a>
+        <nav>
+            <ul>
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#services">خدماتنا</a></li>
+                <li><a href="#" onclick="showComingSoonMsg(); return false;">آلية العمل</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="https://wa.me/218944855177" target="_blank" class="cta-btn">
+                <span>تواصل الآن</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 1.11L8.16 9.91a16 16 0 0 0 6 6l2.28-2.28a2 2 0 0 1 1.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <div class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+               معاملاتك في آمان
+            </div>
+            <h1>بوابتك السريعة <span>للحلول المالية</span> الرقمية</h1>
+            <p>نحن متخصصون في تسهيل معاملاتك المالية من مصرف التجارة والتنمية، بدءاً من إصدار بطاقات الفيزا وحتى إنجاز مخصصات الأغراض الشخصية، بأمان تام واحترافية متناهية.</p>
+            
+            <div class="hero-action-btns">
+                <a href="#services" class="cta-btn">
+                    استكشف خدماتنا
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
+                <a href="#" onclick="showComingSoonMsg(); return false;" class="cta-btn cta-btn-outline">كيف نعمل؟</a>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <div class="hero-svg-wrapper">
+                <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#2a2a60;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#1d1d45;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="50" y="100" width="380" height="250" rx="25" fill="url(#grad1)" stroke="#d4af37" stroke-width="2"/>
+                    <rect x="90" y="150" width="60" height="45" rx="8" fill="#d4af37" opacity="0.8"/>
+                    <rect x="90" y="220" width="250" height="15" rx="5" fill="white" opacity="0.2"/>
+                    <rect x="90" y="250" width="180" height="15" rx="5" fill="white" opacity="0.2"/>
+                    <text x="330" y="320" style="font-family:Arial, sans-serif;font-weight:bold;font-style:italic;font-size:35px" fill="white" opacity="0.6">VISA</text>
+                    <circle cx="420" cy="120" r="30" fill="#d4af37" opacity="0.2" />
+                    <circle cx="100" cy="380" r="20" fill="#d4af37" opacity="0.1" />
+                    <path d="M400 350 L420 370 L400 390 L380 370 Z" fill="#d4af37" opacity="0.3" />
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <h2 class="section-title">خدماتنا المتخصصة</h2>
+        <p class="section-subtitle">نوفر لك الدعم الكامل لإنجاز تعاملاتك المالية بكل سهولة</p>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon-box">💳</div>
+                <h3>شراء بطاقات الفيزا</h3>
+                <p>خدمة متكاملة لشراء وتفعيل بطاقات الفيزا الخاصة بمصرف التجارة والتنمية، مع ضمان السرعة في التنفيذ وأعلى معايير الأمان لبياناتك.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon-box">📄</div>
+                <h3>الأغراض الشخصية</h3>
+                <p>نولي اهتماماً خاصاً لتسهيل وتسريع إجراءات مخصصات الأغراض الشخصية، نتولى كافة التفاصيل لضمان استلامك لمخصصاتك بشفافية وسلاسة.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 جهاد للخدمات المالية. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        function showComingSoonMsg() {
+            Swal.fire({
+                title: 'قريباً جداً!',
+                text: 'نحن نعمل حالياً على صياغة شرح دقيق ومبسط لآلية العمل لضمان أفضل تجربة لكم. شكراً لصبركم.',
+                icon: 'info',
+                iconColor: '#d4af37',
+                confirmButtonText: 'فهمت ذلك',
+                confirmButtonColor: '#1d1d45',
+                background: '#ffffff',
+                backdrop: `rgba(29, 29, 69, 0.5)`
+            });
+        }
+    </script>
+</body>
+</html>
