@@ -59,6 +59,17 @@
         }
         nav a:hover::after { width: 100%; }
 
+        /* زر الهامبرجر للقوائم المحمولة */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
         /* --- الأزرار المصغرة المحسنة --- */
         .cta-btn {
             background-color: var(--accent-color); color: var(--primary-color);
@@ -507,16 +518,35 @@
             .offers-grid { gap: 2rem; }
         }
         @media (max-width: 768px) {
-            nav ul { display: none; }
-            .hero h1 { font-size: 2.2rem; }
-            .tab-btn { font-size: 0.95rem; padding: 1.2rem 0.5rem; }
+            .menu-toggle { display: block; }
+            nav ul { 
+                position: fixed;
+                top: 60px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background-color: rgba(29, 29, 69, 0.99);
+                flex-direction: column;
+                gap: 1rem;
+                padding: 2rem;
+                transition: right 0.4s ease;
+                overflow-y: auto;
+                backdrop-filter: blur(10px);
+            }
+            nav ul.active { right: 0; }
+            nav a { font-size: 1.1rem; padding: 0.8rem 0; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
+            nav a::after { display: none; }
+            header { padding: 1rem 5%; }
             .header-cta .cta-btn { padding: 0.35rem 0.9rem; font-size: 0.75rem; border-radius: 40px; }
             .header-cta .cta-btn svg { width: 14px; height: 14px; }
             .header-cta .cta-btn span { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .tab-btn { font-size: 0.95rem; padding: 1.2rem 0.5rem; }
         }
         @media (max-width: 480px) {
             .header-cta .cta-btn { padding: 0.3rem 0.7rem; }
             .header-cta .cta-btn svg { width: 12px; height: 12px; }
+            nav { padding: 0 1rem; }
         }
     </style>
 </head>
@@ -534,6 +564,9 @@
                 <li><a href="#" onclick="showComingSoonMsg(); return false;">آلية العمل</a></li>
             </ul>
         </nav>
+        <button class="menu-toggle" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
         <div class="header-cta">
             <a href="https://wa.me/218944855177" target="_blank" class="cta-btn">
                 <span>تواصل الآن</span>
@@ -740,6 +773,31 @@
                 confirmButtonColor: '#1d1d45'
             });
         }
+
+        // دالة تبديل القائمة للجوال
+        function toggleMenu() {
+            const navList = document.querySelector('nav ul');
+            navList.classList.toggle('active');
+        }
+
+        // إغلاق القائمة عند النقر على أي رابط
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                const navList = document.querySelector('nav ul');
+                navList.classList.remove('active');
+            });
+        });
+
+        // إغلاق القائمة عند النقر خارجها على الجوال
+        document.addEventListener('click', (e) => {
+            const nav = document.querySelector('nav');
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navList = document.querySelector('nav ul');
+            
+            if (!nav.contains(e.target) && !menuToggle.contains(e.target)) {
+                navList.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
